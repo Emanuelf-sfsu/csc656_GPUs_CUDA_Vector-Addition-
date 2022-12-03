@@ -1,3 +1,9 @@
+/*
+ * Coding Project #3: Vector Addition in Parrallel, CPU only version.
+ * Emanuel Francis
+ * CSC 656 
+*/
+
 #include <iostream>
 #include <math.h>
 #include <chrono>
