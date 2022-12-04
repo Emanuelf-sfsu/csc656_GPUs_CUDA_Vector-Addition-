@@ -1,0 +1,24 @@
+==63183== NVPROF is profiling process 63183, command: ./myavecadd_gpu_256t
+==63183== Profiling application: ./myavecadd_gpu_256t
+==63183== Profiling result:
+            Type  Time(%)      Time     Calls       Avg       Min       Max  Name
+ GPU activities:  100.00%  49.351ms         1  49.351ms  49.351ms  49.351ms  add(int, float*, float*)
+      API calls:   80.40%  272.28ms         2  136.14ms  111.77us  272.17ms  cudaMallocManaged
+                   14.57%  49.353ms         1  49.353ms  49.353ms  49.353ms  cudaDeviceSynchronize
+                    4.66%  15.776ms         2  7.8878ms  7.6483ms  8.1272ms  cudaFree
+                    0.22%  750.38us       101  7.4290us     119ns  340.09us  cuDeviceGetAttribute
+                    0.10%  337.83us         1  337.83us  337.83us  337.83us  cuDeviceTotalMem
+                    0.03%  85.787us         1  85.787us  85.787us  85.787us  cuDeviceGetName
+                    0.02%  74.815us         1  74.815us  74.815us  74.815us  cudaLaunchKernel
+                    0.00%  5.4560us         1  5.4560us  5.4560us  5.4560us  cuDeviceGetPCIBusId
+                    0.00%  3.1540us         2  1.5770us     126ns  3.0280us  cuDeviceGet
+                    0.00%  1.1880us         3     396ns     147ns     836ns  cuDeviceGetCount
+                    0.00%     297ns         1     297ns     297ns     297ns  cuDeviceGetUuid
+
+==63183== Unified Memory profiling result:
+Device "Tesla V100-SXM2-16GB (0)"
+   Count  Avg Size  Min Size  Max Size  Total Size  Total Time  Name
+     768  170.67KB  4.0000KB  0.9961MB  128.0000MB  13.11764ms  Host To Device
+     384  170.67KB  4.0000KB  0.9961MB  64.00000MB  5.616317ms  Device To Host
+     194         -         -         -           -  35.16261ms  Gpu page fault groups
+Total CPU Page faults: 576
