@@ -62,8 +62,8 @@ int main(void)
     std::cout << "Elapsed time is : " << elapsed.count() << " " << std::endl;
 
     // Free Memory
-    delete[] x;
-    delete[] y;
+    cudaFree(x);
+    cudaFree(y);
 
     return 0;
 }
