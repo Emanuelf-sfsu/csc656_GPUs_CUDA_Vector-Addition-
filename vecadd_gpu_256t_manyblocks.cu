@@ -8,18 +8,14 @@
 #include <math.h>
 #include <chrono>
 
-/*
-    threadIdx.x contains the index of the current thread within its block, 
-    and blockDim.x contains the number of threads in the block.
-    Modify the loop to stride through the array with parallel threads.
-*/
+
 __global__
 void add(int n, float *x, float *y)
 {
-  int index = threadIdx.x;
-  int stride = blockDim.x;
+  int index = blockIdx.x * blockDim.x + threadIdx.x;
+  int stride = blockDim.x * gridDim.x;
   for (int i = index; i < n; i += stride)
-      y[i] = x[i] + y[i];
+    y[i] = x[i] + y[i];
 }
 
 int main(void)
@@ -43,12 +39,15 @@ int main(void)
 
     // Run kernel on 1M elements on the GPU
     /*
-        If I run the code with only this change, it will do the computation once 
-        per thread, rather than spreading the computation across the parallel 
-        threads. To do it properly, I need to modify the kernel. CUDA C++ provides 
-        keywords that let kernels get the indices of the running threads.
+        Together, the blocks of parallel threads make up what is known as 
+        the grid. Since I have N elements to process, and 256 threads per 
+        block, I just need to calculate the number of blocks to get at 
+        least N threads. I simply divide N by the block size (being 
+        careful to round up in case N is not a multiple of blockSize).
     */
-    add<<<1, 256>>>(N, x, y);
+    int blockSize = 256;
+    int numBlocks = (N + blockSize - 1) / blockSize;
+    add<<<numBlocks, blockSize>>>(N, x, y);
 
     // Wait for GPU to finish before accessing on host
     cudaDeviceSynchronize();
