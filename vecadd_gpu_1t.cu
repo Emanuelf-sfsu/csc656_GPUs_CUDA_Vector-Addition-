@@ -37,8 +37,6 @@ int main(void)
         y[i] = 2.0f;
     }
 
-    // insert your timer code here
-    std::chrono::time_point<std::chrono::high_resolution_clock> start_time = std::chrono::high_resolution_clock::now();
 
     // Run kernel on 1M elements on the GPU
     add<<<1, 1>>>(N, x, y);
@@ -46,8 +44,6 @@ int main(void)
     // Wait for GPU to finish before accessing on host
     cudaDeviceSynchronize();
 
-    // insert your end timer code here, and print out elapsed time for this problem size
-    std::chrono::time_point<std::chrono::high_resolution_clock> end_time = std::chrono::high_resolution_clock::now();
 
     // Check for errors (all values should be 3.0f)
     float maxError = 0.0f;
@@ -58,8 +54,6 @@ int main(void)
     }
 
     std::cout << "Max error " << maxError << std::endl;
-    std::chrono::duration<double> elapsed = end_time - start_time;
-    std::cout << "Elapsed time is : " << elapsed.count() << " " << std::endl;
 
     // Free Memory
     cudaFree(x);
