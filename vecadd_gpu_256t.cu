@@ -8,15 +8,18 @@
 #include <math.h>
 #include <chrono>
 
-// CUDA Kernel function to add the elements of two arrays on the GPU multi-threads
-
+/*
+    threadIdx.x contains the index of the current thread within its block, 
+    and blockDim.x contains the number of threads in the block.
+    Modify the loop to stride through the array with parallel threads.
+*/
 __global__
 void add(int n, float *x, float *y)
 {
-    for (int i = 0; i < n; i++)
-    {
-        y[i] = x[i] + y[i];
-    }
+  int index = threadIdx.x;
+  int stride = blockDim.x;
+  for (int i = index; i < n; i += stride)
+      y[i] = x[i] + y[i];
 }
 
 int main(void)
@@ -39,7 +42,12 @@ int main(void)
 
 
     // Run kernel on 1M elements on the GPU
-
+    /*
+        If I run the code with only this change, it will do the computation once 
+        per thread, rather than spreading the computation across the parallel 
+        threads. To do it properly, I need to modify the kernel. CUDA C++ provides 
+        keywords that let kernels get the indices of the running threads.
+    */
     add<<<1, 256>>>(N, x, y);
 
     // Wait for GPU to finish before accessing on host
