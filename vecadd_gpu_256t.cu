@@ -16,6 +16,8 @@
 __global__
 void add(int n, float *x, float *y)
 {
+  
+  // n arithmetic operations
   int index = threadIdx.x;
   int stride = blockDim.x;
   for (int i = index; i < n; i += stride)

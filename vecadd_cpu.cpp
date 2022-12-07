@@ -11,6 +11,7 @@
 // function to add the elements of two arrays
 void add(int n, float *x, float *y)
 {
+    // n arithmetic operations
     for (int i = 0; i < n; i++)
     {
         y[i] = x[i] + y[i];
