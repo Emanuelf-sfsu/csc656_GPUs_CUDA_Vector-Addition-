@@ -12,7 +12,7 @@
 __global__
 void add(int n, float *x, float *y)
 {
-//  3 + n arithmetic operations
+  // 3 + n arithmetic operations
   int index = blockIdx.x * blockDim.x + threadIdx.x;
   int stride = blockDim.x * gridDim.x;
   for (int i = index; i < n; i += stride)
@@ -30,6 +30,10 @@ int main(void)
     cudaMallocManaged(&x, N*sizeof(float));
     cudaMallocManaged(&y, N*sizeof(float));
 
+    int deviceID=0;
+    cudaMemPrefetchAsync((void *)x, N*sizeof(float), deviceID) ;
+    cudaMemPrefetchAsync((void *)y, N*sizeof(float), deviceID) ;
+    
     // initalize x and y arrays on the host
     for (int i = 0; i < N; i++)
     {

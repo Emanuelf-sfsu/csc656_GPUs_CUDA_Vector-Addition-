@@ -14,6 +14,8 @@ __global__
 void add(int n, float *x, float *y)
 {
     // n arithmetic operations
+    // 3n bytes written/read
+
     for (int i = 0; i < n; i++)
     {
         y[i] = x[i] + y[i];
